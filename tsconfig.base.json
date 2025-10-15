@@ -14,7 +14,10 @@
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
-    "paths": {}
+    "paths": {
+      "@common/constants/*": ["libs/constants/src/lib/*"],
+      "@common/constants": ["libs/constants/src/index"]
+    }
   },
   "exclude": ["node_modules", "tmp"]
 }

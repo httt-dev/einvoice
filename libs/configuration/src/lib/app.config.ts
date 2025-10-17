@@ -1,5 +1,8 @@
+import { IsNumber } from 'class-validator';
+
 export class AppConfiguration {
   // Define the application-specific configuration properties and methods here
+  @IsNumber()
   PORT: number;
 
   constructor() {

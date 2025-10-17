@@ -1,4 +1,4 @@
-import { Controller, Get } from '@nestjs/common';
+import { BadRequestException, Controller, Get } from '@nestjs/common';
 import { AppService } from './app.service';
 import { ResponseDto } from '@common/interfaces/gateway/response.interface';
 
@@ -9,6 +9,8 @@ export class AppController {
     @Get()
     getData() {
         const result = this.appService.getData();
+
+        throw new BadRequestException('Invalid request example');
         return new ResponseDto({ data: result });
     }
 }

@@ -3,6 +3,7 @@ import { AppService } from './app.service';
 import { ResponseDto } from '@common/interfaces/gateway/response.interface';
 import { TcpClient } from '@common/interfaces/tcp/common/tcp-client.interface';
 import { map } from 'rxjs/operators';
+import { ProcessId } from '@common/decorators/processId.decorator';
 @Controller('app')
 export class AppController {
     constructor(
@@ -19,9 +20,9 @@ export class AppController {
     }
 
     @Get('invoice')
-    async getInvoice() {
+    async getInvoice(@ProcessId() processId: string) {
         return this.invoiceClient
-            .send<string, number>('get_invoice', { processId: '123', data: 42 })
+            .send<string, number>('get_invoice', { processId: processId, data: 42 })
             .pipe(map((data) => new ResponseDto<string>(data)));
     }
 }

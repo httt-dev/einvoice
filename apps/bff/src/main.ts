@@ -37,8 +37,8 @@ async function bootstrap() {
 
         const port = AppModule.CONFIGURATION.APP_CONFIG.PORT;
         await app.listen(port);
-        Logger.log(`🚀 Application is running on: http://localhost:${port}/${globalPrefix}`);
-        Logger.log(`🚀 Application is running on: http://localhost:${port}/${globalPrefix}/docs`);
+        Logger.log(`🚀 BFF Application is running on: http://localhost:${port}/${globalPrefix}`);
+        Logger.log(`🚀 BFF Application is running on: http://localhost:${port}/${globalPrefix}/docs`);
     } catch (error) {
         Logger.error('Error during application bootstrap', error);
     }

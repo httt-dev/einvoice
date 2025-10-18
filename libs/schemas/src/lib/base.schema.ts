@@ -5,7 +5,7 @@ export class BaseSchema {
     _id: ObjectId;
 
     @Virtual({
-        get: (doc: any) => doc._id.toString(),
+        get: (doc: any) => doc?._id?.toString(),
     })
     id: string;
 

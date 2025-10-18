@@ -14,8 +14,8 @@ async function bootstrap() {
     app.connectMicroservice<MicroserviceOptions>({
         transport: Transport.TCP,
         options: {
-            host: 'localhost',
-            port: 3301,
+            host: AppModule.CONFIGURATION.TCP_SERV.TCP_INVOICE_SERVICE.options.host,
+            port: AppModule.CONFIGURATION.TCP_SERV.TCP_INVOICE_SERVICE.options.port,
         },
     });
     // Start all microservices

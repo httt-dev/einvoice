@@ -82,4 +82,16 @@ And join the Nx community:
 
 ## Docker compose
 
+### Xoa data
+
+docker system prune -af
+
 docker compose -f .\docker-compose.provider.yaml up -d
+
+docker compose -f .\docker-compose.provider.yaml down
+
+## PostgreSQL
+
+http://localhost:5050/
+
+admin@admin.com /Abc12345

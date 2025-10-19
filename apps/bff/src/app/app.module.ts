@@ -7,6 +7,7 @@ import { ExceptionInterceptor } from '@common/interceptors/exception.interceptor
 
 import { InvoiceModule } from './modules/invoice/invoice.module';
 import { ProductModule } from './modules/product/product.module';
+import { UserModule } from './modules/user/user.module';
 
 function configFactory() {
     return CONFIGURATION;
@@ -18,6 +19,7 @@ function configFactory() {
         // Register TCP Client to communicate with Invoice Microservice
         InvoiceModule,
         ProductModule,
+        UserModule,
     ],
     controllers: [],
     providers: [{ provide: APP_INTERCEPTOR, useClass: ExceptionInterceptor }],

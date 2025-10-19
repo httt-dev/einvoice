@@ -106,21 +106,21 @@ services:
         volumes:
             - ./docker/docker_data/pgadmin_data:/var/lib/pgadmin
 
-    # keycloak:
-    #   image: quay.io/keycloak/keycloak:25.0.0
-    #   container_name: keycloak-25.0.0
-    #   ports:
-    #     - '8180:8080'
-    #   environment:
-    #     KEYCLOAK_ADMIN: admin
-    #     KEYCLOAK_ADMIN_PASSWORD: Abc12345
+    keycloak:
+        image: quay.io/keycloak/keycloak:25.0.0
+        container_name: keycloak-25.0.0
+        ports:
+            - '8180:8080'
+        environment:
+            KEYCLOAK_ADMIN: admin
+            KEYCLOAK_ADMIN_PASSWORD: Abc12345
 
-    #   command: start-dev
-    #   restart: unless-stopped
-    #   volumes:
-    #     - ./docker/docker_data/keycloak_data:/opt/keycloak/data
-    #   networks:
-    #     - einvoice-nw
+        command: start-dev
+        restart: unless-stopped
+        volumes:
+            - ./docker/docker_data/keycloak_data:/opt/keycloak/data
+        networks:
+            - einvoice-nw
 
     # redis:
     #   image: redis

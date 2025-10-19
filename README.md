@@ -95,3 +95,10 @@ docker compose -f .\docker-compose.provider.yaml down
 http://localhost:5050/
 
 admin@admin.com /Abc12345
+
+### keycloak
+
+docker compose -f .\docker-compose.provider.yaml up -d keycloak
+
+http://localhost:8180/admin/master/console/
+admin/Abc12345

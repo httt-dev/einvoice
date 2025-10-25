@@ -6,6 +6,6 @@ import { KeycloakHttpService } from './services/keycloak-http.service';
     imports: [],
     controllers: [KeycloakController],
     providers: [KeycloakHttpService],
-    exports: [],
+    exports: [KeycloakHttpService], // de cho phia authorizer co the goi duoc
 })
 export class KeycloakModule {}

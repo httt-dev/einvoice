@@ -102,3 +102,81 @@ docker compose -f .\docker-compose.provider.yaml up -d keycloak
 
 http://localhost:8180/admin/master/console/
 admin/Abc12345
+
+http://localhost:8180/realms/einvoice-app/account
+alice/Abc12345
+
+http://localhost:8180/realms/einvoice-app/.well-known/openid-configuration
+
+### Direct access plan ( use user/pass)
+
+POST
+http://localhost:8180/realms/einvoice-app/protocol/openid-connect/token
+
+x-www-form-urlencoded
+
+grant_type:password
+client_id:einvoice-app
+username:alice
+password:Abc12345
+scope:openid
+
+### Standard access plan
+
+#### Get authorization code
+
+http://localhost:8180/realms/einvoice-app/protocol/openid-connect/auth?
+
+#### get code
+
+Base uri:
+http://localhost:8180/realms/einvoice-app/protocol/openid-connect/token
+
+Login on browser :
+
+http://localhost:8180/realms/einvoice-app/protocol/openid-connect/auth?client_id=einvoice-app&response_type=code&scope=openid&redirect_uri=http://localhost:3000/authenticate
+
+Input user: alice
+Pass: Abc12345
+
+After login => redirect to client app with code like (use only once time):
+
+b9a15a02-40e1-4f92-b528-40aad9d620e6.e9f98592-7520-401f-ac03-3fba22feb147.8470dabf-71aa-41bd-95d6-f8c82e708310
+
+#### get token
+
+Open postman :
+
+POST
+http://localhost:8180/realms/einvoice-app/protocol/openid-connect/token
+
+body (urlencoded)
+
+grant_type:authorization_code
+client_id:einvoice-app
+code:b9a15a02-40e1-4f92-b528-40aad9d620e6.e9f98592-7520-401f-ac03-3fba22feb147.8470dabf-71aa-41bd-95d6-f8c82e708310
+redirect_uri:http://localhost:3000/authenticate
+
+### Create user use admin SDK
+
+POST
+
+http://localhost:8180/admin/realms/einvoice-app/users
+
+Body:
+
+{
+"username": "johndoe1",
+"enabled": true,
+"email" : "codedao.io@gmail.com",
+"emailVerified": "true",
+"firstName" : "Hoa",
+"lastName": "Nguyen",
+"credentials": [
+{
+"type": "password",
+"value": "Abc12345",
+"temporary": false
+}
+]
+}

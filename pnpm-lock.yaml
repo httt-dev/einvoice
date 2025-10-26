@@ -7,6 +7,12 @@ settings:
 importers:
     .:
         dependencies:
+            '@keyv/redis':
+                specifier: ^5.1.3
+                version: 5.1.3(keyv@5.5.3)
+            '@nestjs/cache-manager':
+                specifier: ^3.0.1
+                version: 3.0.1(@nestjs/common@11.1.6(class-transformer@0.5.1)(class-validator@0.14.2)(reflect-metadata@0.1.14)(rxjs@7.8.1))(@nestjs/core@11.1.6)(cache-manager@7.2.4)(keyv@5.5.3)(rxjs@7.8.1)
             '@nestjs/common':
                 specifier: ^11.0.0
                 version: 11.1.6(class-transformer@0.5.1)(class-validator@0.14.2)(reflect-metadata@0.1.14)(rxjs@7.8.1)
@@ -18,7 +24,7 @@ importers:
                 version: 11.1.6(@nestjs/common@11.1.6(class-transformer@0.5.1)(class-validator@0.14.2)(reflect-metadata@0.1.14)(rxjs@7.8.1))(@nestjs/microservices@11.1.6)(@nestjs/platform-express@11.1.6)(reflect-metadata@0.1.14)(rxjs@7.8.1)
             '@nestjs/microservices':
                 specifier: ^11.1.6
-                version: 11.1.6(@nestjs/common@11.1.6(class-transformer@0.5.1)(class-validator@0.14.2)(reflect-metadata@0.1.14)(rxjs@7.8.1))(@nestjs/core@11.1.6)(reflect-metadata@0.1.14)(rxjs@7.8.1)
+                version: 11.1.6(@nestjs/common@11.1.6(class-transformer@0.5.1)(class-validator@0.14.2)(reflect-metadata@0.1.14)(rxjs@7.8.1))(@nestjs/core@11.1.6)(cache-manager@7.2.4)(reflect-metadata@0.1.14)(rxjs@7.8.1)
             '@nestjs/mongoose':
                 specifier: ^11.0.3
                 version: 11.0.3(@nestjs/common@11.1.6(class-transformer@0.5.1)(class-validator@0.14.2)(reflect-metadata@0.1.14)(rxjs@7.8.1))(@nestjs/core@11.1.6)(mongoose@8.19.1)(rxjs@7.8.1)
@@ -34,6 +40,9 @@ importers:
             axios:
                 specifier: ^1.6.0
                 version: 1.12.2
+            cache-manager:
+                specifier: ^7.2.4
+                version: 7.2.4
             class-transformer:
                 specifier: ^0.5.1
                 version: 0.5.1
@@ -1161,6 +1170,12 @@ packages:
                 integrity: sha512-rnJenoStJ8nvmt9Gzye8nkYd6V22xUAnu4086ER7h1zJ508vStko4pMvDeQ446ilDTFpV5wnoc5YS7XvMwwMqA==,
             }
 
+    '@cacheable/utils@2.1.0':
+        resolution:
+            {
+                integrity: sha512-ZdxfOiaarMqMj+H7qwlt5EBKWaeGihSYVHdQv5lUsbn8MJJOTW82OIwirQ39U5tMZkNvy3bQE+ryzC+xTAb9/g==,
+            }
+
     '@commitlint/cli@20.1.0':
         resolution:
             {
@@ -1674,6 +1689,21 @@ packages:
         peerDependencies:
             tslib: '2'
 
+    '@keyv/redis@5.1.3':
+        resolution:
+            {
+                integrity: sha512-ClCCeAFMFzPH487ridqozfqb80Jdo8Uy0u2rMU18w8gFVkBhPIOz1ruEzr1hHpV8boK2PC3c9urQxXpTYHIlNQ==,
+            }
+        engines: { node: '>= 18' }
+        peerDependencies:
+            keyv: ^5.5.3
+
+    '@keyv/serialize@1.1.1':
+        resolution:
+            {
+                integrity: sha512-dXn3FZhPv0US+7dtJsIi2R+c7qWYiReoEh5zUntWCf4oSpMNib8FDhSoed6m3QyZdx5hK7iLFkYk3rNxwt8vTA==,
+            }
+
     '@leichtgewicht/ip-codec@2.0.5':
         resolution:
             {
@@ -1710,6 +1740,18 @@ packages:
             {
                 integrity: sha512-9zESzOO5aDByvhIAsOy9TbpZ0Ur2AJbUI7UT73kcUTS2mxAMHOBaa1st/jAymNoCtvrit99kkzT1FZuXVcgfIQ==,
             }
+
+    '@nestjs/cache-manager@3.0.1':
+        resolution:
+            {
+                integrity: sha512-4UxTnR0fsmKL5YDalU2eLFVnL+OBebWUpX+hEduKGncrVKH4PPNoiRn1kXyOCjmzb0UvWgqubpssNouc8e0MCw==,
+            }
+        peerDependencies:
+            '@nestjs/common': ^9.0.0 || ^10.0.0 || ^11.0.0
+            '@nestjs/core': ^9.0.0 || ^10.0.0 || ^11.0.0
+            cache-manager: '>=6'
+            keyv: '>=5'
+            rxjs: ^7.8.1
 
     '@nestjs/common@11.1.6':
         resolution:
@@ -2227,6 +2269,13 @@ packages:
                 integrity: sha512-QNqXyfVS2wm9hweSYD2O7F0G06uurj9kZ96TRQE5Y9hU7+tgdZwIkbAKc5Ocy1HxEY2kuDQa6cQ1WRs/O5LFKA==,
             }
         engines: { node: ^12.20.0 || ^14.18.0 || >=16.0.0 }
+
+    '@redis/client@5.9.0':
+        resolution:
+            {
+                integrity: sha512-EI0Ti5pojD2p7TmcS7RRa+AJVahdQvP/urpcSbK/K9Rlk6+dwMJTQ354pCNGCwfke8x4yKr5+iH85wcERSkwLQ==,
+            }
+        engines: { node: '>= 18' }
 
     '@scarf/scarf@1.4.0':
         resolution:
@@ -3687,6 +3736,12 @@ packages:
             }
         engines: { node: '>= 0.8' }
 
+    cache-manager@7.2.4:
+        resolution:
+            {
+                integrity: sha512-skmhkqXjPCBmrb70ctEx4zwFk7vb0RdFXlVGYWnFZ8pKvkzdFrFFKSJ1IaKduGfkryHOJvb7q2PkGmonmL+UGw==,
+            }
+
     call-bind-apply-helpers@1.0.2:
         resolution:
             {
@@ -3870,6 +3925,13 @@ packages:
                 integrity: sha512-JQHZ2QMW6l3aH/j6xCqQThY/9OH4D/9ls34cgkUBiEeocRTU04tHfKPBsUK1PqZCUQM7GiA0IIXJSuXHI64Kbg==,
             }
         engines: { node: '>=0.8' }
+
+    cluster-key-slot@1.1.2:
+        resolution:
+            {
+                integrity: sha512-RMr0FhtfXemyinomL4hrWcYJxmX6deFdCxpJzhDttxgO1+bcCnkk+9drydLVDmAMG7NE6aN/fl4F7ucU/90gAA==,
+            }
+        engines: { node: '>=0.10.0' }
 
     co@4.6.0:
         resolution:
@@ -5447,6 +5509,12 @@ packages:
             }
         hasBin: true
 
+    hookified@1.12.2:
+        resolution:
+            {
+                integrity: sha512-aokUX1VdTpI0DUsndvW+OiwmBpKCu/NgRsSSkuSY0zq8PY6Q6a+lmOfAFDXAAOtBqJELvcWY9L1EVtzjbQcMdg==,
+            }
+
     hosted-git-info@7.0.2:
         resolution:
             {
@@ -6349,6 +6417,12 @@ packages:
         resolution:
             {
                 integrity: sha512-oxVHkHR/EJf2CNXnWxRLW6mg7JyCCUcG0DtEGmL2ctUo1PNTin1PUil+r/+4r5MpVgC/fn1kjsx7mjSujKqIpw==,
+            }
+
+    keyv@5.5.3:
+        resolution:
+            {
+                integrity: sha512-h0Un1ieD+HUrzBH6dJXhod3ifSghk5Hw/2Y4/KHBziPlZecrFyE9YOTPU6eOs0V9pYl8gOs86fkr/KN8lUX39A==,
             }
 
     kill-port@1.6.1:
@@ -10665,6 +10739,10 @@ snapshots:
 
     '@bufbuild/protobuf@2.9.0': {}
 
+    '@cacheable/utils@2.1.0':
+        dependencies:
+            keyv: 5.5.3
+
     '@commitlint/cli@20.1.0(@types/node@20.19.9)(typescript@5.9.3)':
         dependencies:
             '@commitlint/format': 20.0.0
@@ -11126,6 +11204,15 @@ snapshots:
             '@jsonjoy.com/codegen': 1.0.0(tslib@2.8.1)
             tslib: 2.8.1
 
+    '@keyv/redis@5.1.3(keyv@5.5.3)':
+        dependencies:
+            '@redis/client': 5.9.0
+            cluster-key-slot: 1.1.2
+            hookified: 1.12.2
+            keyv: 5.5.3
+
+    '@keyv/serialize@1.1.1': {}
+
     '@leichtgewicht/ip-codec@2.0.5': {}
 
     '@lukeed/csprng@1.1.0': {}
@@ -11148,6 +11235,14 @@ snapshots:
             '@emnapi/core': 1.5.0
             '@emnapi/runtime': 1.5.0
             '@tybys/wasm-util': 0.9.0
+
+    '@nestjs/cache-manager@3.0.1(@nestjs/common@11.1.6(class-transformer@0.5.1)(class-validator@0.14.2)(reflect-metadata@0.1.14)(rxjs@7.8.1))(@nestjs/core@11.1.6)(cache-manager@7.2.4)(keyv@5.5.3)(rxjs@7.8.1)':
+        dependencies:
+            '@nestjs/common': 11.1.6(class-transformer@0.5.1)(class-validator@0.14.2)(reflect-metadata@0.1.14)(rxjs@7.8.1)
+            '@nestjs/core': 11.1.6(@nestjs/common@11.1.6(class-transformer@0.5.1)(class-validator@0.14.2)(reflect-metadata@0.1.14)(rxjs@7.8.1))(@nestjs/microservices@11.1.6)(@nestjs/platform-express@11.1.6)(reflect-metadata@0.1.14)(rxjs@7.8.1)
+            cache-manager: 7.2.4
+            keyv: 5.5.3
+            rxjs: 7.8.1
 
     '@nestjs/common@11.1.6(class-transformer@0.5.1)(class-validator@0.14.2)(reflect-metadata@0.1.14)(rxjs@7.8.1)':
         dependencies:
@@ -11184,7 +11279,7 @@ snapshots:
             tslib: 2.8.1
             uid: 2.0.2
         optionalDependencies:
-            '@nestjs/microservices': 11.1.6(@nestjs/common@11.1.6(class-transformer@0.5.1)(class-validator@0.14.2)(reflect-metadata@0.1.14)(rxjs@7.8.1))(@nestjs/core@11.1.6)(reflect-metadata@0.1.14)(rxjs@7.8.1)
+            '@nestjs/microservices': 11.1.6(@nestjs/common@11.1.6(class-transformer@0.5.1)(class-validator@0.14.2)(reflect-metadata@0.1.14)(rxjs@7.8.1))(@nestjs/core@11.1.6)(cache-manager@7.2.4)(reflect-metadata@0.1.14)(rxjs@7.8.1)
             '@nestjs/platform-express': 11.1.6(@nestjs/common@11.1.6(class-transformer@0.5.1)(class-validator@0.14.2)(reflect-metadata@0.1.14)(rxjs@7.8.1))(@nestjs/core@11.1.6)
 
     '@nestjs/mapped-types@2.1.0(@nestjs/common@11.1.6(class-transformer@0.5.1)(class-validator@0.14.2)(reflect-metadata@0.1.14)(rxjs@7.8.1))(class-transformer@0.5.1)(class-validator@0.14.2)(reflect-metadata@0.1.14)':
@@ -11195,7 +11290,7 @@ snapshots:
             class-transformer: 0.5.1
             class-validator: 0.14.2
 
-    '@nestjs/microservices@11.1.6(@nestjs/common@11.1.6(class-transformer@0.5.1)(class-validator@0.14.2)(reflect-metadata@0.1.14)(rxjs@7.8.1))(@nestjs/core@11.1.6)(reflect-metadata@0.1.14)(rxjs@7.8.1)':
+    '@nestjs/microservices@11.1.6(@nestjs/common@11.1.6(class-transformer@0.5.1)(class-validator@0.14.2)(reflect-metadata@0.1.14)(rxjs@7.8.1))(@nestjs/core@11.1.6)(cache-manager@7.2.4)(reflect-metadata@0.1.14)(rxjs@7.8.1)':
         dependencies:
             '@nestjs/common': 11.1.6(class-transformer@0.5.1)(class-validator@0.14.2)(reflect-metadata@0.1.14)(rxjs@7.8.1)
             '@nestjs/core': 11.1.6(@nestjs/common@11.1.6(class-transformer@0.5.1)(class-validator@0.14.2)(reflect-metadata@0.1.14)(rxjs@7.8.1))(@nestjs/microservices@11.1.6)(@nestjs/platform-express@11.1.6)(reflect-metadata@0.1.14)(rxjs@7.8.1)
@@ -11203,6 +11298,8 @@ snapshots:
             reflect-metadata: 0.1.14
             rxjs: 7.8.1
             tslib: 2.8.1
+        optionalDependencies:
+            cache-manager: 7.2.4
 
     '@nestjs/mongoose@11.0.3(@nestjs/common@11.1.6(class-transformer@0.5.1)(class-validator@0.14.2)(reflect-metadata@0.1.14)(rxjs@7.8.1))(@nestjs/core@11.1.6)(mongoose@8.19.1)(rxjs@7.8.1)':
         dependencies:
@@ -11255,7 +11352,7 @@ snapshots:
             '@nestjs/core': 11.1.6(@nestjs/common@11.1.6(class-transformer@0.5.1)(class-validator@0.14.2)(reflect-metadata@0.1.14)(rxjs@7.8.1))(@nestjs/microservices@11.1.6)(@nestjs/platform-express@11.1.6)(reflect-metadata@0.1.14)(rxjs@7.8.1)
             tslib: 2.8.1
         optionalDependencies:
-            '@nestjs/microservices': 11.1.6(@nestjs/common@11.1.6(class-transformer@0.5.1)(class-validator@0.14.2)(reflect-metadata@0.1.14)(rxjs@7.8.1))(@nestjs/core@11.1.6)(reflect-metadata@0.1.14)(rxjs@7.8.1)
+            '@nestjs/microservices': 11.1.6(@nestjs/common@11.1.6(class-transformer@0.5.1)(class-validator@0.14.2)(reflect-metadata@0.1.14)(rxjs@7.8.1))(@nestjs/core@11.1.6)(cache-manager@7.2.4)(reflect-metadata@0.1.14)(rxjs@7.8.1)
             '@nestjs/platform-express': 11.1.6(@nestjs/common@11.1.6(class-transformer@0.5.1)(class-validator@0.14.2)(reflect-metadata@0.1.14)(rxjs@7.8.1))(@nestjs/core@11.1.6)
 
     '@nestjs/typeorm@11.0.0(@nestjs/common@11.1.6(class-transformer@0.5.1)(class-validator@0.14.2)(reflect-metadata@0.1.14)(rxjs@7.8.1))(@nestjs/core@11.1.6)(reflect-metadata@0.1.14)(rxjs@7.8.1)(typeorm@0.3.27(babel-plugin-macros@3.1.0)(mongodb@6.20.0)(pg@8.16.3)(reflect-metadata@0.1.14)(ts-node@10.9.1(@swc/core@1.5.29(@swc/helpers@0.5.17))(@types/node@20.19.9)(typescript@5.9.3)))':
@@ -11666,6 +11763,10 @@ snapshots:
         optional: true
 
     '@pkgr/core@0.2.9': {}
+
+    '@redis/client@5.9.0':
+        dependencies:
+            cluster-key-slot: 1.1.2
 
     '@scarf/scarf@1.4.0': {}
 
@@ -12587,6 +12688,11 @@ snapshots:
 
     bytes@3.1.2: {}
 
+    cache-manager@7.2.4:
+        dependencies:
+            '@cacheable/utils': 2.1.0
+            keyv: 5.5.3
+
     call-bind-apply-helpers@1.0.2:
         dependencies:
             es-errors: 1.3.0
@@ -12690,6 +12796,8 @@ snapshots:
             shallow-clone: 3.0.1
 
     clone@1.0.4: {}
+
+    cluster-key-slot@1.1.2: {}
 
     co@4.6.0: {}
 
@@ -13654,6 +13762,8 @@ snapshots:
 
     he@1.2.0: {}
 
+    hookified@1.12.2: {}
+
     hosted-git-info@7.0.2:
         dependencies:
             lru-cache: 10.4.3
@@ -14354,6 +14464,10 @@ snapshots:
     keyv@4.5.4:
         dependencies:
             json-buffer: 3.0.1
+
+    keyv@5.5.3:
+        dependencies:
+            '@keyv/serialize': 1.1.1
 
     kill-port@1.6.1:
         dependencies:

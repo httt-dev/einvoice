@@ -2,7 +2,7 @@ import { Injectable, CanActivate, ExecutionContext, Logger, UnauthorizedExceptio
 import { firstValueFrom, map, Observable } from 'rxjs';
 import { Reflector } from '@nestjs/core';
 import { MetadataKeys } from '@common/constants/common.constant';
-import { getAccessToken } from '@common/utils/request.util';
+import { getAccessToken, setUserData } from '@common/utils/request.util';
 import { TCP_SERVICES } from '@common/configuration/tcp.config';
 import { TcpClient } from '@common/interfaces/tcp/common/tcp-client.interface';
 import { TCP_REQUEST_MESSAGE } from '@common/constants/enum/tcp-request-message.enum';
@@ -38,6 +38,10 @@ export class UserGuard implements CanActivate {
             if (!result?.valid) {
                 throw new UnauthorizedException('Token is invalid');
             }
+
+            // set user data into request
+            setUserData(req, result);
+
             // passed
             return true;
         } catch (error) {

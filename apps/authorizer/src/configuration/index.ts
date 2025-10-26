@@ -22,5 +22,12 @@ class Configuration extends BaseConfiguration {
 export const CONFIGURATION = new Configuration();
 // khai bao type cho CONFIGURATION
 export type TConfiguration = typeof CONFIGURATION;
-
 CONFIGURATION.validate();
+
+// export const CONFIGURATION_FACTORY=() =>{
+//   const cfg = new Configuration();
+//   cfg.validate();
+//   return cfg;
+// }
+
+// export type TConfiguration = ReturnType<typeof CONFIGURATION_FACTORY>;

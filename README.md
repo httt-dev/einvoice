@@ -90,6 +90,8 @@ docker compose -f .\docker-compose.provider.yaml up -d
 
 docker compose -f .\docker-compose.provider.yaml down
 
+docker compose -f .\docker-compose.provider.yaml up -d redis
+
 ## PostgreSQL
 
 http://localhost:5050/

@@ -18,6 +18,18 @@ async function bootstrap() {
             port: AppModule.CONFIGURATION.TCP_SERV.TCP_AUTHORIZER_SERVICE.options.port,
         },
     });
+
+    Logger.debug('grpc config', AppModule.CONFIGURATION.GRPC_SERV.GRPC_AUTHORIZER_SERVICE);
+
+    app.connectMicroservice<MicroserviceOptions>({
+        transport: Transport.GRPC,
+        options: {
+            package: AppModule.CONFIGURATION.GRPC_SERV.GRPC_AUTHORIZER_SERVICE.name,
+            protoPath: AppModule.CONFIGURATION.GRPC_SERV.GRPC_AUTHORIZER_SERVICE.options.protoPath,
+            url: AppModule.CONFIGURATION.GRPC_SERV.GRPC_AUTHORIZER_SERVICE.options.url,
+        },
+    });
+
     // Start all microservices
     await app.startAllMicroservices();
 

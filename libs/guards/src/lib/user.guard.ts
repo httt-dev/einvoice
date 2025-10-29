@@ -10,16 +10,25 @@ import { AuthorizeResponse } from '@common/interfaces/tcp/authorizer/authorizer.
 import { CACHE_MANAGER } from '@nestjs/cache-manager';
 import { Cache } from 'cache-manager';
 import { createHash } from 'crypto';
+import { ClientGrpc } from '@nestjs/microservices';
+import { GRPC_SERVICES } from '@common/configuration/grpc.config';
+import { AuthorizerService } from '@common/interfaces/grpc/authorizer';
 
 @Injectable()
 export class UserGuard implements CanActivate {
     private readonly logger = new Logger(UserGuard.name);
+    private authorizerService: AuthorizerService;
 
     constructor(
         private readonly reflector: Reflector,
         @Inject(TCP_SERVICES.AUTHORIZER_SERVICE) private readonly auhorizerClient: TcpClient,
         @Inject(CACHE_MANAGER) private cacheManager: Cache,
+        @Inject(GRPC_SERVICES.AUTHORIZER_SERVICE) private readonly grpcAuthorizerClient: ClientGrpc,
     ) {}
+
+    onModuleInit() {
+        this.authorizerService = this.grpcAuthorizerClient.getService<AuthorizerService>('AuthorizerService');
+    }
 
     canActivate(context: ExecutionContext): boolean | Promise<boolean> | Observable<boolean> {
         const authOptions = this.reflector.get<{ secured: boolean }>(MetadataKeys.SECURED, context.getHandler());
@@ -47,8 +56,11 @@ export class UserGuard implements CanActivate {
                 return true;
             }
 
-            const result = await this.verifyUserToken(token, processId);
+            // const result = await this.verifyUserTokenTcp(token, processId);
+            const response = await firstValueFrom(this.authorizerService.verifyUserToken({ processId, token }));
+            this.logger.debug('verify token response: ', response);
 
+            const { data: result } = response;
             if (!result?.valid) {
                 throw new UnauthorizedException('Token is invalid');
             }
@@ -69,7 +81,7 @@ export class UserGuard implements CanActivate {
         }
     }
 
-    private async verifyUserToken(token: string, processId: string) {
+    private async verifyUserTokenTcp(token: string, processId: string) {
         return firstValueFrom(
             this.auhorizerClient
                 .send<AuthorizeResponse, string>(TCP_REQUEST_MESSAGE.AUTHORIZER.VERIFY_USER_TOKEN, {

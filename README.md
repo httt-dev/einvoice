@@ -182,3 +182,7 @@ Body:
 }
 ]
 }
+
+## build
+
+nx build pdf-generator

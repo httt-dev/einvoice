@@ -10,16 +10,22 @@ import { firstValueFrom, map } from 'rxjs';
 import { TCP_REQUEST_MESSAGE } from '@common/constants/enum/tcp-request-message.enum';
 import { User } from '@common/schemas/user.schema';
 import { Role } from '@common/schemas/role.schema';
+import { UserAccessService } from '@common/interfaces/grpc/user-access';
+import { GRPC_SERVICES } from '@common/configuration/grpc.config';
+import { ClientGrpc } from '@nestjs/microservices';
 
 @Injectable()
 export class AuthorizerSerivce {
     private readonly logger = new Logger(AuthorizerSerivce.name);
+    private userAccessService: UserAccessService;
+
     private jwksClient: JwksClient;
 
     constructor(
         private readonly keycloakHttpService: KeycloakHttpService,
         private readonly configService: ConfigService,
         @Inject(TCP_SERVICES.USER_ACCESS_SERVICE) private readonly userAccessClient: TcpClient,
+        @Inject(GRPC_SERVICES.USER_ACCESS_SERVICE) private readonly grpcUserAccessService: ClientGrpc,
     ) {
         // const host = this.configService.get('KEYCLOAK_CONFIG.HOST');
         // const realm = this.configService.get('KEYCLOAK_CONFIG.REALM');
@@ -60,6 +66,8 @@ export class AuthorizerSerivce {
             cache: true,
             rateLimit: true,
         });
+
+        this.userAccessService = this.grpcUserAccessService.getService<UserAccessService>('UserAccessService');
     }
 
     async verifyUserToken(token: string, processId: string): Promise<AuthorizeResponse> {
@@ -98,7 +106,10 @@ export class AuthorizerSerivce {
     }
 
     private async userValidation(userId: string, processId: string) {
-        const user = await this.getUserByUserId(userId, processId);
+        // const user = await this.getUserByUserId(userId, processId); // TCP
+        const user = await firstValueFrom(
+            this.userAccessService.getByUserId({ userId: userId, processId: processId }).pipe(map((data) => data.data)),
+        );
         if (!user) {
             throw new UnauthorizedException('User not found');
         }

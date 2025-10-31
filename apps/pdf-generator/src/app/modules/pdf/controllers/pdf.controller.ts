@@ -10,6 +10,6 @@ export class PdfController {
     async printPdf() {
         const templatePath = path.join(__dirname, 'templates', 'invoice.template.ejs');
 
-        return await this.pdfService.generatePdfFormEjs(templatePath, { invoice: { id: 1 } });
+        return await this.pdfService.generatePdfFromEjs(templatePath, { invoice: { id: 1 } });
     }
 }

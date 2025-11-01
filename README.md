@@ -186,3 +186,15 @@ Body:
 ## build
 
 nx build pdf-generator
+
+## Cloudinary
+
+https://console.cloudinary.com/
+
+## Stripe
+
+https://dashboard.stripe.com/
+
+Mock card : 4242424....
+
+https://webhook-test.com/

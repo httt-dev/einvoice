@@ -4,7 +4,7 @@ import { ValidateNested } from 'class-validator';
 import { Type } from 'class-transformer';
 import { TcpConfiguration } from '@common/configuration/tcp.config';
 import { MongoConfiguration } from '@common/configuration/mongo.config';
-
+import { CloudinaryConfiguration } from '@common/configuration/cloudinary.config';
 class Configuration extends BaseConfiguration {
     @ValidateNested()
     @Type(() => AppConfiguration)
@@ -17,6 +17,10 @@ class Configuration extends BaseConfiguration {
     @ValidateNested()
     @Type(() => MongoConfiguration)
     MONGO_CONFIG = new MongoConfiguration();
+
+    @ValidateNested()
+    @Type(() => CloudinaryConfiguration)
+    CLOUDINARY_CONFIG = new CloudinaryConfiguration();
 }
 
 export const CONFIGURATION = new Configuration();

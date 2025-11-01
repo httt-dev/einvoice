@@ -1,4 +1,4 @@
-import { BadRequestException, Inject, Injectable } from '@nestjs/common';
+import { BadRequestException, Inject, Injectable, Logger } from '@nestjs/common';
 import { InvoiceRepository } from '../repositories/invoice.repository';
 import { CreateInvoiceTcpRequest, SendInvoiceTcpReq } from '@common/interfaces/tcp/invoice';
 import { invoiceRequestMapping } from '../mappers';
@@ -10,12 +10,14 @@ import { Invoice } from '@common/schemas/invoice.schema';
 import { firstValueFrom, map } from 'rxjs';
 import { TCP_REQUEST_MESSAGE } from '@common/constants/enum/tcp-request-message.enum';
 import { ObjectId } from 'mongodb';
+import { UploadFileTcpReq } from '@common/interfaces/tcp/media';
 
 @Injectable()
 export class InvoiceService {
     constructor(
         private readonly invoiceRepository: InvoiceRepository,
         @Inject(TCP_SERVICES.PDF_GENERATOR_SERVICE) private readonly pdfGeneratorClient: TcpClient,
+        @Inject(TCP_SERVICES.MEDIA_SERVICE) private readonly mediaClient: TcpClient,
     ) {}
 
     create(params: CreateInvoiceTcpRequest) {
@@ -34,17 +36,37 @@ export class InvoiceService {
         const pdfBase64 = await this.generatorInvoicePdf(invoice, processId);
 
         // upload
+        const fileName = `invoice-${invoiceId}`;
+
+        const fileUrl = await this.uploadFile({ fileBase64: pdfBase64, fileName: fileName }, processId);
+        Logger.debug('sendById', fileName, fileUrl);
+
+        // update db
         await this.invoiceRepository.updateById(invoiceId, {
             status: INVOICE_STATUS.SENT,
             supervisorId: new ObjectId(userId),
+            fileUrl: fileUrl,
         });
-        return pdfBase64;
+        return fileUrl;
     }
 
     generatorInvoicePdf(data: Invoice, processId: string) {
         return firstValueFrom(
             this.pdfGeneratorClient
                 .send<string, Invoice>(TCP_REQUEST_MESSAGE.PDF_GENERATOR.CREATE_INVOICE_PDF, {
+                    data,
+                    processId,
+                })
+                .pipe(map((data) => data.data)),
+        );
+    }
+
+    uploadFile(data: UploadFileTcpReq, processId: string) {
+        // return file url
+        return firstValueFrom(
+            // message se duoc consume tai media service
+            this.mediaClient
+                .send<string, UploadFileTcpReq>(TCP_REQUEST_MESSAGE.MEDIA.UPLOAD_FILE, {
                     data,
                     processId,
                 })

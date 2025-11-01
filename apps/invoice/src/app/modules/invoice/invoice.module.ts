@@ -12,7 +12,10 @@ import { TCP_SERVICES, TcpProvider } from '@common/configuration/tcp.config';
     imports: [
         MongoProvider,
         MongooseModule.forFeature([InvoiceDestination]),
-        ClientsModule.registerAsync([TcpProvider(TCP_SERVICES.PDF_GENERATOR_SERVICE)]),
+        ClientsModule.registerAsync([
+            TcpProvider(TCP_SERVICES.PDF_GENERATOR_SERVICE),
+            TcpProvider(TCP_SERVICES.MEDIA_SERVICE),
+        ]), // dang ky de co the goi TCP server khac
     ],
     controllers: [InvoiceController],
     providers: [InvoiceService, InvoiceRepository],

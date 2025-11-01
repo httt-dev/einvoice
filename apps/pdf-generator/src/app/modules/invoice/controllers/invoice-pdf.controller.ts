@@ -13,7 +13,7 @@ export class InvoicePdfController {
     constructor(private readonly invoicePdfService: InvoicePdfService) {}
 
     @MessagePattern(TCP_REQUEST_MESSAGE.PDF_GENERATOR.CREATE_INVOICE_PDF)
-    async generateInoicePdf(@RequestParams() params: Invoice): Promise<Response<string>> {
+    async generateInvoicePdf(@RequestParams() params: Invoice): Promise<Response<string>> {
         const buffer = await this.invoicePdfService.generateInvoicePdf(params);
 
         return Response.success<string>(Buffer.from(buffer).toString('base64'));

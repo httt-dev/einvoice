@@ -10,7 +10,9 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 
 async function bootstrap() {
     try {
-        const app = await NestFactory.create(AppModule);
+        const app = await NestFactory.create(AppModule, {
+            rawBody: true,
+        });
         const globalPrefix = AppModule.CONFIGURATION.GLOBAL_PREFIX;
 
         app.setGlobalPrefix(globalPrefix);
@@ -19,7 +21,7 @@ async function bootstrap() {
         app.enableCors({ origin: '*' });
         //swagger setup
         const config = new DocumentBuilder()
-            .setTitle('BFF API')
+            .setTitle('Einvoice BFF API')
             .setDescription('The BFF API description')
             .setVersion('1.0.0')
             .addTag('bff')

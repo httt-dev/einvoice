@@ -198,3 +198,15 @@ https://dashboard.stripe.com/
 Mock card : 4242424....
 
 https://webhook-test.com/
+
+### Install stripe
+
+https://docs.stripe.com/stripe-cli/install?install-method=windows
+
+.\stripe.exe login
+
+.\stripe.exe listen --forward-to localhost:3300/api/v1/webhook/stripe
+
+> Ready! You are using Stripe API Version [2025-10-29.clover]. Your webhook signing secret is whsec_00a0df8eba19ed623de71eb49f6a2f5224b1cd5f73399c7a88da167036e312d4
+
+.\stripe.exe trigger checkout.session.completed

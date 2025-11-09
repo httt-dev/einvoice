@@ -80,4 +80,10 @@ export class InvoiceService {
                 .pipe(map((data) => data.data)),
         );
     }
+
+    async updateInvoicePaid(invoiceId: string) {
+        await this.invoiceRepository.updateById(invoiceId, {
+            status: INVOICE_STATUS.PAID,
+        });
+    }
 }

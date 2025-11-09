@@ -15,6 +15,7 @@ import { TCP_SERVICES, TcpProvider } from '@common/configuration/tcp.config';
 import { PermissionGuard } from '@common/guards/permission.guard';
 import { RedisProvider } from '@common/configuration/redis.config';
 import { GRPC_SERVICES, GrpcProvider } from '@common/configuration/grpc.config';
+import { WebhookModule } from './modules/webhook/webhook.module';
 
 function configFactory() {
     return CONFIGURATION;
@@ -31,6 +32,7 @@ function configFactory() {
         ClientsModule.registerAsync([TcpProvider(TCP_SERVICES.AUTHORIZER_SERVICE)]),
         RedisProvider,
         ClientsModule.registerAsync([GrpcProvider(GRPC_SERVICES.AUTHORIZER_SERVICE)]),
+        WebhookModule,
     ],
     controllers: [],
     providers: [

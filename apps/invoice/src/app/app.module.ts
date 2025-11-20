@@ -10,6 +10,9 @@ import { PaymentModule } from './modules/payment/payment.module';
         InvoiceModule,
         PaymentModule,
     ],
+    controllers: [],
+    providers: [],
+    exports: [],
 })
 export class AppModule {
     static CONFIGURATION: TConfiguration = CONFIGURATION;

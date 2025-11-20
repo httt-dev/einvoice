@@ -92,6 +92,19 @@ docker compose -f .\docker-compose.provider.yaml down
 
 docker compose -f .\docker-compose.provider.yaml up -d redis
 
+docker compose -f .\docker-compose.provider.yaml up -d kafka
+
+docker-compose -f docker-compose.provider.yaml restart kafka
+
+## Kafka
+
+create topic demo-topic
+
+kafka-topics.sh --create --topic demo-topic --bootstrap-server localhost:9092
+
+list topic
+kafka-topics.sh --list --bootstrap-server localhost:9092
+
 ## PostgreSQL
 
 http://localhost:5050/
@@ -210,3 +223,7 @@ https://docs.stripe.com/stripe-cli/install?install-method=windows
 > Ready! You are using Stripe API Version [2025-10-29.clover]. Your webhook signing secret is whsec_00a0df8eba19ed623de71eb49f6a2f5224b1cd5f73399c7a88da167036e312d4
 
 .\stripe.exe trigger checkout.session.completed
+
+## Add package
+
+pnpm add kafkajs

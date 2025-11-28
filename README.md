@@ -227,6 +227,8 @@ https://docs.stripe.com/stripe-cli/install?install-method=windows
 ## Add package
 
 pnpm add kafkajs
+pnpm add nodemailer
+pnpm add -D @types/nodemailer
 
 ## Run
 

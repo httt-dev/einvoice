@@ -13,6 +13,7 @@ import { ObjectId } from 'mongodb';
 import { UploadFileTcpReq } from '@common/interfaces/tcp/media';
 import { PaymentService } from '../../payment/services/payment.service';
 import { ClientKafka } from '@nestjs/microservices';
+import { KafkaService } from '@common/kafka/kafka.service';
 
 @Injectable()
 export class InvoiceService {
@@ -21,12 +22,13 @@ export class InvoiceService {
         @Inject(TCP_SERVICES.PDF_GENERATOR_SERVICE) private readonly pdfGeneratorClient: TcpClient,
         @Inject(TCP_SERVICES.MEDIA_SERVICE) private readonly mediaClient: TcpClient,
         private readonly paymentService: PaymentService,
-        @Inject('INVOICE_SERVICE') private readonly mailClient: ClientKafka,
+        // @Inject('INVOICE_SERVICE') private readonly mailClient: ClientKafka,
+        private readonly kafkaClient: KafkaService,
     ) {}
 
-    onModuleInit() {
-        this.mailClient.connect();
-    }
+    // onModuleInit() {
+    //     this.mailClient.connect();
+    // }
 
     create(params: CreateInvoiceTcpRequest) {
         const input = invoiceRequestMapping(params);
@@ -60,7 +62,14 @@ export class InvoiceService {
             fileUrl: fileUrl,
         });
 
-        this.mailClient.emit('invoice-sent', {
+        // this.mailClient.emit('invoice-sent', {
+        //     invoiceId,
+        //     clientEmail: invoice.client.email,
+        //     userId,
+        //     fileUrl,
+        // });
+
+        this.kafkaClient.emit('invoice-sent', {
             invoiceId,
             clientEmail: invoice.client.email,
             userId,

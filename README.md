@@ -227,3 +227,7 @@ https://docs.stripe.com/stripe-cli/install?install-method=windows
 ## Add package
 
 pnpm add kafkajs
+
+## Run
+
+pnpm dev

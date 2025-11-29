@@ -14,7 +14,7 @@ import { UploadFileTcpReq } from '@common/interfaces/tcp/media';
 import { PaymentService } from '../../payment/services/payment.service';
 import { ClientKafka } from '@nestjs/microservices';
 import { KafkaService } from '@common/kafka/kafka.service';
-
+import { InvoiceSentPayload } from '@common/interfaces/queue/invoice';
 @Injectable()
 export class InvoiceService {
     constructor(
@@ -69,14 +69,12 @@ export class InvoiceService {
         //     fileUrl,
         // });
 
-        this.kafkaClient.emit('invoice-sent', {
-            invoiceId,
-            clientEmail: invoice.client.email,
-            userId,
-            fileUrl,
+        this.kafkaClient.emit<InvoiceSentPayload>('invoice-sent', {
+            id: invoiceId,
+            paymentLink: checkoutData.url,
         });
 
-        return checkoutData.url;
+        // return checkoutData.url;
     }
 
     generatorInvoicePdf(data: Invoice, processId: string) {
@@ -107,5 +105,9 @@ export class InvoiceService {
         await this.invoiceRepository.updateById(invoiceId, {
             status: INVOICE_STATUS.PAID,
         });
+    }
+
+    getById(id: string) {
+        return this.invoiceRepository.getById(id);
     }
 }

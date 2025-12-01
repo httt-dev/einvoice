@@ -16,6 +16,8 @@ import { PermissionGuard } from '@common/guards/permission.guard';
 import { RedisProvider } from '@common/configuration/redis.config';
 import { GRPC_SERVICES, GrpcProvider } from '@common/configuration/grpc.config';
 import { WebhookModule } from './modules/webhook/webhook.module';
+import { ThrottlerProvider } from '@common/configuration/throttler.config';
+import { ThrottlerGuard } from '@nestjs/throttler';
 
 function configFactory() {
     return CONFIGURATION;
@@ -33,6 +35,7 @@ function configFactory() {
         RedisProvider,
         ClientsModule.registerAsync([GrpcProvider(GRPC_SERVICES.AUTHORIZER_SERVICE)]),
         WebhookModule,
+        ThrottlerProvider,
     ],
     controllers: [],
     providers: [
@@ -44,6 +47,10 @@ function configFactory() {
         {
             provide: APP_GUARD,
             useClass: PermissionGuard,
+        },
+        {
+            provide: APP_GUARD,
+            useClass: ThrottlerGuard,
         },
     ],
 })
